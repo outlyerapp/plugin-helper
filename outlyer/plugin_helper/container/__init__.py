@@ -10,24 +10,27 @@ def check_output(cmd):
         target = client.containers.get(cid)
         return target.exec_run(cmd)
 
-    else:
+    elif is_patched():
         return subprocess._check_output(cmd)
+
+    else:
+        return subprocess.check_output(cmd)
 
 
 def patch():
-    if not hasattr(subprocess, '_check_output'):
+    if not is_patched():
         subprocess._check_output = subprocess.check_output
         subprocess.check_output = check_output
 
 
 def unpatch():
-    if hasattr(subprocess, '_check_output'):
+    if is_patched():
         subprocess.check_output = subprocess._check_output
         delattr(subprocess, '_check_output')
 
 
 def is_patched():
-    hasattr(subprocess, '_check_output')
+    return hasattr(subprocess, '_check_output')
 
 
 def is_container():

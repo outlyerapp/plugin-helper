@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name='outlyer.plugin_helper',
     description = 'Outlyer plugin helper',
-    version='0.0.1',
+    version='0.0.2',
     license='MIT',
     url='https://github.com/outlyerapp/plugin_helper',
     download_url='https://github.com/outlyerapp/plugin_helper/archive/0.1.tar.gz',
