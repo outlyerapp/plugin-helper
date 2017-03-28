@@ -3,7 +3,7 @@ import subprocess
 import docker
 
 
-def exec_run(cmd):
+def check_output(cmd):
     if is_container():
         cid = get_container_id()
         client = docker.from_env()
@@ -14,19 +14,21 @@ def exec_run(cmd):
         return subprocess._check_output(cmd)
 
 
-def patch_container():
+def patch():
     if not hasattr(subprocess, '_check_output'):
         subprocess._check_output = subprocess.check_output
-        subprocess.check_output = exec_run
+        subprocess.check_output = check_output
 
 
-def unpatch_container():
+def unpatch():
     if hasattr(subprocess, '_check_output'):
         subprocess.check_output = subprocess._check_output
         delattr(subprocess, '_check_output')
 
+
 def is_patched():
     hasattr(subprocess, '_check_output')
+
 
 def is_container():
     if get_container_id():

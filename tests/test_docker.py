@@ -29,9 +29,9 @@ class TestDockerHelpers(unittest.TestCase):
         self.assertEqual(CONTAINER_IP, container.get_container_ip())
 
     def test_patch_container(self):
-        container.patch_container()
+        container.patch()
         self.assertTrue(hasattr(subprocess, '_check_output'))
 
     def test_unpatch_container(self):
-        container.unpatch_container()
+        container.unpatch()
         self.assertFalse(hasattr(subprocess, '_check_output'))

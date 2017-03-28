@@ -2,9 +2,9 @@ from setuptools import setup
 
 
 setup(
-    name='outlyer.plugin_blah',
-    description = '',
-    version='0.0.8',
+    name='outlyer.plugin_helper',
+    description = 'Outlyer plugin helper',
+    version='0.0.1',
     license='MIT',
     url='https://github.com/outlyerapp/plugin_helper',
     download_url='https://github.com/outlyerapp/plugin_helper/archive/0.1.tar.gz',
