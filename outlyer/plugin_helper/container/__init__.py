@@ -1,36 +1,8 @@
 import os
-import subprocess
+import inspect
+import importlib
+import pkgutil
 import docker
-
-
-def check_output(cmd):
-    if is_container():
-        cid = get_container_id()
-        client = docker.from_env()
-        target = client.containers.get(cid)
-        return target.exec_run(cmd)
-
-    elif is_patched():
-        return subprocess._check_output(cmd)
-
-    else:
-        return subprocess.check_output(cmd)
-
-
-def patch():
-    if not is_patched():
-        subprocess._check_output = subprocess.check_output
-        subprocess.check_output = check_output
-
-
-def unpatch():
-    if is_patched():
-        subprocess.check_output = subprocess._check_output
-        delattr(subprocess, '_check_output')
-
-
-def is_patched():
-    return hasattr(subprocess, '_check_output')
 
 
 def is_container():
@@ -45,4 +17,30 @@ def get_container_ip():
 
 
 def get_container_id():
-    return os.environ.get("CONTAINER_ID")
+    return os.environ.get('CONTAINER_ID')
+
+
+def _get_patch_modules():
+    modules = []
+    this_file = inspect.getfile(inspect.currentframe())
+    this_package = inspect.getmodule(inspect.currentframe()).__name__
+
+    cwd = os.path.dirname(os.path.abspath(this_file))
+
+    for loader, module_name, ispkg in pkgutil.iter_modules([cwd]):
+        mod = importlib.import_module(this_package + '.' + module_name)
+        if hasattr(mod, 'patch') and hasattr(mod, 'unpatch') and\
+           hasattr(mod, 'is_patched'):
+            modules.append(mod)
+
+    return modules
+
+
+def patch_all():
+    for mod in _get_patch_modules():
+        getattr(mod, 'patch')()
+
+
+def unpatch_all():
+    for mod in _get_patch_modules():
+        getattr(mod, 'unpatch')()
