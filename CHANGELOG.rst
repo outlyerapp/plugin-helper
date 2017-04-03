@@ -3,7 +3,7 @@ Changelog
 
 
 0.0.0 (UNRELEASED)
--------------------
+------------------
 
 
 Backward-incompatible changes:
