@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='outlyer.plugin_helper',
-    description = 'Outlyer plugin helper',
+    description='Outlyer plugin helper',
     version='0.0.2',
     license='MIT',
     url='https://github.com/outlyerapp/plugin_helper',
@@ -41,5 +41,6 @@ setup(
         'outlyer.plugin_helper.container'
     ],
 )
+
 if __name__ == "__main__":
     pass

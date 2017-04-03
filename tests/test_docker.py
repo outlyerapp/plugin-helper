@@ -21,11 +21,11 @@ class TestDockerHelpers(unittest.TestCase):
         self.env.unset('CONTAINER_ID')
         self.assertFalse(container.is_container())
 
-    def test_conatiner_id(self):
+    def test_container_id(self):
         self.env.set('CONTAINER_ID', CONTAINER_ID)
         self.assertEqual(CONTAINER_ID, container.get_container_id())
 
-    def test_conatiner_ip(self):
+    def test_container_ip(self):
         self.env.set('CONTAINER_IP', CONTAINER_IP)
         self.assertEqual(CONTAINER_IP, container.get_container_ip())
 
