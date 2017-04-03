@@ -1,4 +1,3 @@
-import os
 import subprocess
 import docker
 from outlyer.plugin_helper.container import is_container, get_container_id
@@ -12,7 +11,7 @@ def check_output(cmd):
         return target.exec_run(cmd)
 
     elif is_patched():
-        return subprocess._check_output(cmd)
+        return getattr(subprocess, '_check_output')(cmd)
 
     else:
         return subprocess.check_output(cmd)
@@ -26,7 +25,7 @@ def patch():
 
 def unpatch():
     if is_patched():
-        subprocess.check_output = subprocess._check_output
+        subprocess.check_output = getattr(subprocess, '_check_output')
         delattr(subprocess, '_check_output')
 
 

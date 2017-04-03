@@ -2,7 +2,6 @@ import os
 import inspect
 import importlib
 import pkgutil
-import docker
 
 
 def is_container():
@@ -10,6 +9,10 @@ def is_container():
         return True
     else:
         return False
+
+
+def is_localhost(hostname):
+    return hostname in ('localhost', '127.0.0.1', '::1')
 
 
 def get_container_ip():
@@ -27,7 +30,7 @@ def _get_patch_modules():
 
     cwd = os.path.dirname(os.path.abspath(this_file))
 
-    for loader, module_name, ispkg in pkgutil.iter_modules([cwd]):
+    for loader, module_name, is_pkg in pkgutil.iter_modules([cwd]):
         mod = importlib.import_module(this_package + '.' + module_name)
         if hasattr(mod, 'patch') and hasattr(mod, 'unpatch') and\
            hasattr(mod, 'is_patched'):

@@ -19,6 +19,7 @@ def sanitize_container_endpoint(url):
 
     return url
 
+
 def _set_to_container_ip(parse_endpoint):
     parts = list(parse_endpoint)
     hostname = container.get_container_ip()
@@ -42,7 +43,7 @@ def patch():
 
 def unpatch():
     if is_patched():
-        requests.api.request = requests.api._request
+        requests.api.request = getattr(requests.api, '_request')
         delattr(requests.api, '_request')
 
 
