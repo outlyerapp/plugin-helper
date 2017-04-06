@@ -3,9 +3,9 @@ from setuptools import setup
 
 if __name__ == "__main__":
     setup(
-        name='outlyer.plugin_helper',
+        name='outlyer.plugin-helper',
         description='Outlyer plugin helper',
-        version='0.0.2',
+        version='0.0.6',
         license='MIT',
         url='https://github.com/outlyerapp/plugin_helper',
         download_url='https://github.com/outlyerapp/plugin_helper/archive/0.1.tar.gz',
