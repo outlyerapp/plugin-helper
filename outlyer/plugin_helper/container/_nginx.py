@@ -1,3 +1,4 @@
+import datetime
 import inspect
 import os
 import tempfile
@@ -37,7 +38,8 @@ def patch():
 
         def get_logs(logfile, since):
             if logfile == 'stdout':
-                logs = target.logs(since=since, stderr=False).split("\n")
+                target_time = datetime.now() - datetime.timedelta(seconds=since)
+                logs = target.logs(since=target_time, stderr=False).split("\n")
                 logs.reverse()
                 return logs
             log_stream, _ = target.get_archive(logfile)
