@@ -38,7 +38,7 @@ def patch():
 
         def get_logs(logfile, since):
             if logfile == 'stdout':
-                target_time = datetime.now() - datetime.timedelta(seconds=since)
+                target_time = datetime.now() - timedelta(seconds=since)
                 logs = target.logs(since=target_time, stderr=False).split("\n")
                 logs.reverse()
                 return logs
