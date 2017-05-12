@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import inspect
 import os
+import re
 import tempfile
 from outlyer.plugin_helper import container
 
@@ -35,6 +36,12 @@ def patch():
         import docker
         client = docker.from_env()
         target = client.containers.get(container_id)
+
+        def nginx_process():
+           procs = target.top().get("Processes", [])
+           for proc in procs:
+               if re.match('nginx', proc[-1]):
+                   return True
 
         def get_logs(logfile, since):
             if logfile == 'stdout':
