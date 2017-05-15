@@ -37,7 +37,7 @@ def patch():
         client = docker.from_env()
         target = client.containers.get(container_id)
 
-        def nginx_process():
+        def find_nginx_process_docker():
            procs = target.top().get("Processes", [])
            for proc in procs:
                if re.match('nginx', proc[-1]):
@@ -58,6 +58,7 @@ def patch():
             return logs
 
         module.read = get_logs
+        module.find_nginx_process = find_nginx_process_docker
 
 def unpatch():
     pass
