@@ -2,8 +2,10 @@ from datetime import datetime, timedelta
 import inspect
 import os
 import re
+import sys
 import tempfile
 from outlyer.plugin_helper import container
+
 
 def reverse_read(fname, separator=os.linesep):
     with file(fname) as f:
@@ -23,6 +25,7 @@ def reverse_read(fname, separator=os.linesep):
             a_line = a_line[::-1]
             yield a_line
 
+
 def patch():
     # check if this is being called from the nginx plugin
     frame = inspect.stack()[2]
@@ -38,10 +41,10 @@ def patch():
         target = client.containers.get(container_id)
 
         def find_nginx_process_docker():
-           procs = target.top().get("Processes", [])
-           for proc in procs:
-               if re.match('nginx', proc[-1]):
-                   return True
+            procs = target.top().get("Processes", [])
+            for proc in procs:
+                if re.match('nginx', proc[-1]):
+                    return True
 
         def get_logs(logfile, since):
             if logfile == 'stdout':
@@ -49,7 +52,14 @@ def patch():
                 logs = target.logs(since=target_time, stderr=False).split("\n")
                 logs.reverse()
                 return logs
-            log_stream, _ = target.get_archive(logfile)
+            try:
+                log_stream, _ = target.get_archive(logfile)
+            except docker.errors.NotFound:
+                print("Could not find file %s inside container %s" % (
+                    logfile, target.name,
+                ))
+                sys.exit(2)
+
             temp_file = tempfile.mkstemp()[1]
             with open(temp_file, 'w') as temp:
                 temp.write(log_stream.read())
@@ -60,8 +70,10 @@ def patch():
         module.read = get_logs
         module.find_nginx_process = find_nginx_process_docker
 
+
 def unpatch():
     pass
+
 
 def is_patched():
     pass
