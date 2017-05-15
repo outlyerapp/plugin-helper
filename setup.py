@@ -5,10 +5,10 @@ if __name__ == "__main__":
     setup(
         name='outlyer.plugin-helper',
         description='Outlyer plugin helper',
-        version='0.0.6',
+        version='0.0.7',
         license='MIT',
         url='https://github.com/outlyerapp/plugin_helper',
-        download_url='https://github.com/outlyerapp/plugin_helper/archive/0.1.tar.gz',
+        download_url='https://github.com/outlyerapp/plugin_helper/archive/0.7.tar.gz',
         author='Colin Hemmings',
         author_email='colin.hemmings@outlyer.com',
         keywords=['outlyer', 'plugin', 'helper'],
