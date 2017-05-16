@@ -41,7 +41,7 @@ def patch():
             assert_hostname=False,
             version="auto",
             timeout=5,
-        ))
+        )
         target = client.containers.get(container_id)
 
         def find_nginx_process_docker():
