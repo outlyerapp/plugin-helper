@@ -5,7 +5,7 @@ if __name__ == "__main__":
     setup(
         name='outlyer.plugin-helper',
         description='Outlyer plugin helper',
-        version='0.0.9',
+        version='0.0.11',
         license='MIT',
         url='https://github.com/outlyerapp/plugin_helper',
         download_url='https://github.com/outlyerapp/plugin_helper/archive/0.9.tar.gz',
