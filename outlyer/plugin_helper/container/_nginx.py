@@ -37,7 +37,11 @@ def patch():
 
     if container_id:
         import docker
-        client = docker.from_env()
+        client = docker.from_env(
+            assert_hostname=False,
+            version="auto",
+            timeout=5,
+        ))
         target = client.containers.get(container_id)
 
         def find_nginx_process_docker():
