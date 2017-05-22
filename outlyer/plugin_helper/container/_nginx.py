@@ -30,7 +30,11 @@ def patch():
     # check if this is being called from the nginx plugin
     frame = inspect.stack()[2]
     filename = frame[1]
-    if not filename.endswith("nginx.py"):
+
+    # The second predicate is because rpc will in some cases give the plugin a
+    # generated name. E.g. `/opt/dataloop/.rpc_cache/PATCH_123-abc-nginx`
+    # XXX: is this robust?
+    if not filename.endswith("nginx.py") or filename.endswith("nginx"):
         return
     module = inspect.getmodule(frame[0])
     container_id = container.get_container_id()
