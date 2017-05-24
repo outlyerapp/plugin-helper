@@ -6,7 +6,11 @@ from outlyer.plugin_helper.container import is_container, get_container_id
 def check_output(cmd):
     if is_container():
         cid = get_container_id()
-        client = docker.from_env()
+        client = docker.from_env(
+            assert_hostname=False,
+            version="auto",
+            timeout=5,
+        )
         target = client.containers.get(cid)
         return target.exec_run(cmd)
 
