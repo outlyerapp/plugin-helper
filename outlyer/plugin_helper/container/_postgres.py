@@ -8,7 +8,6 @@ POSSIBLE_HOSTS_REGEX = "host=(localhost|127.0.0.1|::1)"
 
 def postgres_connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
     container_ip = container.get_container_ip()
-    print "PATCH"
     if dsn is not None and container.is_container() and container_ip is not None:
         match = re.search(POSSIBLE_HOSTS_REGEX, dsn)
         if match is not None:
